@@ -7,8 +7,6 @@ import {
 } from "../api/venta.service";
 import type { VentaFormData } from "../types/venta.types";
 
-const PRINTER_API_URL = "http://localhost:3333";
-
 export async function printTicket(cartItems: { name: string; qty: number }[]) {
   try {
     const payload = {
@@ -19,7 +17,7 @@ export async function printTicket(cartItems: { name: string; qty: number }[]) {
         })),
       },
     };
-    await axios.post(`${PRINTER_API_URL}/print-ticket`, payload);
+    await axios.post("/print-ticket", payload);
   } catch (error) {
     console.error("Error al imprimir el ticket en el helper local:", error);
   }
