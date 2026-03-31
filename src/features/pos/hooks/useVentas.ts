@@ -38,7 +38,7 @@ export function useCheckout(onSuccess?: () => void) {
     mutationFn: async (data: VentaFormData) => {
       return createVentaCompleta(data);
     },
-    onSuccess: (venta) => {
+    onSuccess: () => {
       qc.invalidateQueries({ queryKey: QUERY_KEY });
       qc.invalidateQueries({ queryKey: ["ventas-sesion"] });
       toast.success("Venta registrada con éxito", {
