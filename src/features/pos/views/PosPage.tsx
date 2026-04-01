@@ -125,7 +125,7 @@ export function PosPage() {
   }
 
   return (
-    <section className="p-10 min-h-screen">
+    <section className="p-4 sm:p-6 lg:p-10 min-h-screen">
       {/* Header del turno */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -147,14 +147,14 @@ export function PosPage() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10">
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <PlusIcon className="w-8 h-8 text-orange-500" />
             <h1 className="text-3xl font-black text-slate-800">Nueva Venta</h1>
           </div>
 
-          <div className="border border-slate-200 p-8 bg-white rounded-3xl shadow-sm space-y-8">
+          <div className="border border-slate-200 p-4 sm:p-8 bg-white rounded-3xl shadow-sm space-y-8">
             <PosProductPicker onSelect={handleSelectProduct} />
             <div className="h-px bg-slate-100 w-full" />
             <PosCart

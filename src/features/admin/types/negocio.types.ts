@@ -3,7 +3,7 @@ export type Negocio = {
   nombre: string;
   config_moneda: string;
   activo: boolean;
-  usuarios?: { id: number; nombre: string; email: string; activo: boolean }[];
+  usuarios?: { id: number; nombre: string; email: string; activo: boolean; Rol?: { nombre: string } }[];
   cajas?: { id: number; nombre: string; estado: string }[];
 };
 

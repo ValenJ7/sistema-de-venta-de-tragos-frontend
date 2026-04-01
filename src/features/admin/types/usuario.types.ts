@@ -29,6 +29,8 @@ export const usuarioSchema = z.object({
   negocio_id: z.coerce.number().min(1, "Debe seleccionar un negocio"),
 });
 
+export const adminUsuarioSchema = usuarioSchema.omit({ negocio_id: true });
+
 export const usuarioUpdateSchema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
   email: z.string().email("Email no válido"),
@@ -36,6 +38,8 @@ export const usuarioUpdateSchema = z.object({
   rol_id: z.coerce.number().min(1, "Debe seleccionar un rol"),
   negocio_id: z.coerce.number().min(1, "Debe seleccionar un negocio"),
 });
+
+export const adminUsuarioUpdateSchema = usuarioUpdateSchema.omit({ negocio_id: true });
 
 export type UsuarioFormData = z.infer<typeof usuarioSchema>;
 export type UsuarioUpdateFormData = z.infer<typeof usuarioUpdateSchema>;

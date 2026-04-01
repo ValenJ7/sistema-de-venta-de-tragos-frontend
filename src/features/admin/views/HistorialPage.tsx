@@ -113,9 +113,9 @@ export function HistorialPage() {
           Filtros
         </div>
 
-        <div className="flex flex-wrap gap-3 items-end">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:items-end">
           {/* Presets */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {[
               { key: "hoy", label: "Hoy" },
               { key: "7dias", label: "7 días" },
@@ -136,7 +136,7 @@ export function HistorialPage() {
           </div>
 
           {/* Fechas */}
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-end flex-wrap">
             <div>
               <label className="block text-xs font-semibold text-slate-500 mb-1">Desde</label>
               <input
@@ -194,7 +194,7 @@ export function HistorialPage() {
 
       {/* Resumen / Arqueo */}
       {loadingResumen ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="h-28 bg-slate-100 rounded-2xl animate-pulse" />
           ))}
@@ -202,7 +202,7 @@ export function HistorialPage() {
       ) : resumen ? (
         <>
           {/* Cards principales */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-3 mb-3">
                 <div className="grid h-9 w-9 place-items-center rounded-xl bg-orange-100">
@@ -283,7 +283,7 @@ export function HistorialPage() {
                   Top 10 Productos Más Vendidos
                 </span>
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                 {resumen.top_productos.map((p, i) => (
                   <div
                     key={p.producto_id}
@@ -341,7 +341,7 @@ export function HistorialPage() {
           </div>
         ) : (
           <div className="divide-y divide-slate-100">
-            {/* Header de tabla */}
+            {/* Header de tabla — solo desktop */}
             <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 bg-slate-50 text-xs font-bold text-slate-500 uppercase">
               <div className="col-span-1">#</div>
               <div className="col-span-3">Fecha</div>
@@ -355,70 +355,70 @@ export function HistorialPage() {
               <div key={venta.id}>
                 <button
                   onClick={() => toggleExpand(venta.id)}
-                  className="w-full grid grid-cols-12 gap-4 px-5 py-4 hover:bg-slate-50 transition text-left items-center"
+                  className="w-full hover:bg-slate-50 transition text-left"
                 >
-                  <div className="col-span-1 font-bold text-slate-400 text-sm">
-                    {venta.id}
+                  {/* Mobile layout */}
+                  <div className="flex items-center justify-between px-4 py-3 md:hidden">
+                    <div className="min-w-0">
+                      <div className="text-xs text-slate-400 font-bold">#{venta.id}</div>
+                      <div className="text-sm font-medium text-slate-700">{formatDateTime(venta.fecha)}</div>
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <span className="inline-block px-2 py-0.5 rounded-lg bg-slate-100 text-xs font-bold text-slate-600">
+                          {venta.metodo_pago}
+                        </span>
+                        {venta.sesion?.caja?.nombre && (
+                          <span className="text-xs text-slate-400">{venta.sesion.caja.nombre}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 ml-3">
+                      <span className="font-black text-orange-500">{formatPrice(Number(venta.total))}</span>
+                      {expandedVenta === venta.id
+                        ? <ChevronUpIcon className="w-4 h-4 text-slate-400" />
+                        : <ChevronDownIcon className="w-4 h-4 text-slate-400" />}
+                    </div>
                   </div>
-                  <div className="col-span-3 text-sm font-medium text-slate-700">
-                    {formatDateTime(venta.fecha)}
-                  </div>
-                  <div className="col-span-2 text-sm text-slate-600">
-                    {venta.sesion?.caja?.nombre || "-"}
-                  </div>
-                  <div className="col-span-2 text-sm text-slate-600">
-                    {venta.sesion?.usuario?.nombre || "-"}
-                  </div>
-                  <div className="col-span-2">
-                    <span className="inline-block px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-600">
-                      {venta.metodo_pago}
-                    </span>
-                  </div>
-                  <div className="col-span-2 text-right flex items-center justify-end gap-2">
-                    <span className="font-black text-orange-500">
-                      {formatPrice(Number(venta.total))}
-                    </span>
-                    {expandedVenta === venta.id ? (
-                      <ChevronUpIcon className="w-4 h-4 text-slate-400" />
-                    ) : (
-                      <ChevronDownIcon className="w-4 h-4 text-slate-400" />
-                    )}
+
+                  {/* Desktop layout */}
+                  <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-4 items-center">
+                    <div className="col-span-1 font-bold text-slate-400 text-sm">{venta.id}</div>
+                    <div className="col-span-3 text-sm font-medium text-slate-700">{formatDateTime(venta.fecha)}</div>
+                    <div className="col-span-2 text-sm text-slate-600">{venta.sesion?.caja?.nombre || "-"}</div>
+                    <div className="col-span-2 text-sm text-slate-600">{venta.sesion?.usuario?.nombre || "-"}</div>
+                    <div className="col-span-2">
+                      <span className="inline-block px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-600">
+                        {venta.metodo_pago}
+                      </span>
+                    </div>
+                    <div className="col-span-2 text-right flex items-center justify-end gap-2">
+                      <span className="font-black text-orange-500">{formatPrice(Number(venta.total))}</span>
+                      {expandedVenta === venta.id
+                        ? <ChevronUpIcon className="w-4 h-4 text-slate-400" />
+                        : <ChevronDownIcon className="w-4 h-4 text-slate-400" />}
+                    </div>
                   </div>
                 </button>
 
                 {/* Detalle expandible */}
                 {expandedVenta === venta.id && venta.detalles && (
-                  <div className="px-5 pb-4">
-                    <div className="rounded-xl bg-slate-50 border border-slate-100 p-4 ml-6">
-                      <p className="text-xs font-bold text-slate-400 uppercase mb-2">
-                        Productos
-                      </p>
+                  <div className="px-4 md:px-5 pb-4">
+                    <div className="rounded-xl bg-slate-50 border border-slate-100 p-4 md:ml-6">
+                      <p className="text-xs font-bold text-slate-400 uppercase mb-2">Productos</p>
                       <div className="space-y-1.5">
                         {venta.detalles.map((d) => (
-                          <div
-                            key={d.id}
-                            className="flex justify-between text-sm"
-                          >
+                          <div key={d.id} className="flex justify-between text-sm">
                             <span className="text-slate-600">
-                              <span className="font-bold text-slate-400 mr-1">
-                                x{d.cantidad}
-                              </span>
+                              <span className="font-bold text-slate-400 mr-1">x{d.cantidad}</span>
                               {d.producto?.nombre || `Producto #${d.producto_id}`}
-                              <span className="text-slate-400 ml-2">
-                                @ {formatPrice(Number(d.precio_unitario))}
-                              </span>
+                              <span className="text-slate-400 ml-2">@ {formatPrice(Number(d.precio_unitario))}</span>
                             </span>
-                            <span className="font-bold text-slate-800">
-                              {formatPrice(Number(d.subtotal))}
-                            </span>
+                            <span className="font-bold text-slate-800">{formatPrice(Number(d.subtotal))}</span>
                           </div>
                         ))}
                       </div>
                       <div className="mt-3 pt-3 border-t border-slate-200 flex justify-between">
                         <span className="font-bold text-sm text-slate-500">Total</span>
-                        <span className="font-black text-orange-500">
-                          {formatPrice(Number(venta.total))}
-                        </span>
+                        <span className="font-black text-orange-500">{formatPrice(Number(venta.total))}</span>
                       </div>
                     </div>
                   </div>

@@ -3,11 +3,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { PlusIcon, TrashIcon, BuildingOfficeIcon } from "@heroicons/react/24/solid";
 import { toast } from "sonner";
 import { getNegocios, createNegocio, deleteNegocio, suspenderNegocio, activarNegocio } from "../api/negocio.service";
-import type { NegocioFormData } from "../types/negocio.types";
+import type { Negocio, NegocioFormData } from "../types/negocio.types";
+import { NegocioDetailModal } from "../components/NegocioDetailModal";
 
 export function NegociosPage() {
   const qc = useQueryClient();
   const [showForm, setShowForm] = useState(false);
+  const [selectedNegocio, setSelectedNegocio] = useState<Negocio | null>(null);
   const [form, setForm] = useState<NegocioFormData>({
     nombre: "",
     config_moneda: "ARS",
@@ -187,11 +189,14 @@ export function NegociosPage() {
                   neg.activo ? "hover:bg-slate-50" : "bg-red-50/40 hover:bg-red-50"
                 }`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl ${neg.activo ? "bg-orange-100 text-orange-600" : "bg-red-100 text-red-400"}`}>
+                <button
+                  onClick={() => setSelectedNegocio(neg)}
+                  className="flex items-center gap-4 text-left flex-1 min-w-0"
+                >
+                  <div className={`p-3 rounded-xl shrink-0 ${neg.activo ? "bg-orange-100 text-orange-600" : "bg-red-100 text-red-400"}`}>
                     <BuildingOfficeIcon className="w-6 h-6" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <h3 className="font-bold text-slate-800 text-lg">{neg.nombre}</h3>
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
@@ -209,11 +214,11 @@ export function NegociosPage() {
                     </p>
                     {neg.usuarios && neg.usuarios.length > 0 && (
                       <p className="text-xs text-slate-400 mt-0.5">
-                        Admin: {neg.usuarios.find((u) => u.activo)?.email || neg.usuarios[0].email}
+                        Admin: {neg.usuarios.find((u) => u.Rol?.nombre === 'admin')?.email || neg.usuarios[0].email}
                       </p>
                     )}
                   </div>
-                </div>
+                </button>
 
                 <div className="flex items-center gap-3">
                   <button
@@ -222,7 +227,7 @@ export function NegociosPage() {
                     title={neg.activo ? "Click para suspender" : "Click para activar"}
                     className="flex items-center gap-2 disabled:opacity-50"
                   >
-                    <span className="text-xs font-bold text-slate-400">
+                    <span className="hidden sm:block text-xs font-bold text-slate-400">
                       {neg.activo ? "Activo" : "Suspendido"}
                     </span>
                     <div className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${neg.activo ? "bg-green-500" : "bg-slate-300"}`}>
@@ -242,6 +247,13 @@ export function NegociosPage() {
           </div>
         )}
       </div>
+
+      {selectedNegocio && (
+        <NegocioDetailModal
+          negocio={selectedNegocio}
+          onClose={() => setSelectedNegocio(null)}
+        />
+      )}
     </div>
   );
 }

@@ -69,17 +69,17 @@ export function ShiftsPage() {
           {sesion.cierre_fecha && ` — Cierre: ${formatTime(sesion.cierre_fecha)}`}
         </p>
 
-        <div className="mt-4 grid grid-cols-3 gap-3 max-w-sm mx-auto">
-          <div className="bg-orange-50 border border-orange-200 rounded-xl p-3">
-            <div className="text-2xl font-black text-orange-600">{formatPrice(totalVentas)}</div>
+        <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3 w-full max-w-sm mx-auto">
+          <div className="bg-orange-50 border border-orange-200 rounded-xl p-2 sm:p-3">
+            <div className="text-lg sm:text-2xl font-black text-orange-600 truncate">{formatPrice(totalVentas)}</div>
             <div className="text-xs text-slate-500 font-bold mt-1">Total vendido</div>
           </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3">
-            <div className="text-2xl font-black text-slate-800">{ventas.length}</div>
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 sm:p-3">
+            <div className="text-lg sm:text-2xl font-black text-slate-800">{ventas.length}</div>
             <div className="text-xs text-slate-500 font-bold mt-1">Ventas</div>
           </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3">
-            <div className="text-2xl font-black text-slate-800">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 sm:p-3">
+            <div className="text-lg sm:text-2xl font-black text-slate-800 truncate">
               {formatPrice(Number(sesion.monto_inicial))}
             </div>
             <div className="text-xs text-slate-500 font-bold mt-1">Monto inicial</div>

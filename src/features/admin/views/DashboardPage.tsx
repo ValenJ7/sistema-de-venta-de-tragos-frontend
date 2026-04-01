@@ -41,7 +41,7 @@ export function DashboardPage() {
 
   return (
     <section className="space-y-6 pt-10">
-      <header className="flex items-start justify-between gap-4">
+      <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black">Dashboard Multi-Caja</h1>
           <p className="text-sm text-slate-500">
@@ -50,7 +50,7 @@ export function DashboardPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-3 sm:grid-cols-3 gap-3">
           <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm overflow-hidden">
             <div className="grid h-9 w-9 place-items-center">
               <ShoppingCartIcon className="h-6 w-6 text-orange-500" />

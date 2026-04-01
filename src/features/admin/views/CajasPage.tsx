@@ -104,7 +104,7 @@ export function CajasPage() {
         </div>
 
         {showForm && (
-          <form onSubmit={handleSubmit} className="p-6 border-b border-slate-100 bg-orange-50/30 flex gap-3 items-end">
+          <form onSubmit={handleSubmit} className="p-6 border-b border-slate-100 bg-orange-50/30 flex flex-col sm:flex-row gap-3 sm:items-end">
             <div className="flex-1">
               <label className="block text-sm font-bold text-slate-600 mb-1">
                 {editingId ? "Editar nombre" : "Nombre de la caja"}

@@ -61,7 +61,7 @@ export function ProductoForm({ editingProducto, onClose }: Props) {
         )}
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         {/* Precio */}
         <div className="flex-1">
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">

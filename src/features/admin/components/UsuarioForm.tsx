@@ -4,10 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   usuarioSchema,
   usuarioUpdateSchema,
+  adminUsuarioSchema,
+  adminUsuarioUpdateSchema,
   type UsuarioFormData,
   type Usuario,
 } from "../types/usuario.types";
 import { useCreateUsuario, useUpdateUsuario, useRoles, useNegocios } from "../hooks/useUsuarios";
+import { useAppStore } from "../../../app/stores/useAppStore";
 
 type Props = {
   editingUsuario?: Usuario | null;
@@ -16,7 +19,12 @@ type Props = {
 
 export function UsuarioForm({ editingUsuario, onClose }: Props) {
   const isEditing = !!editingUsuario;
-  const schema = isEditing ? usuarioUpdateSchema : usuarioSchema;
+  const user = useAppStore((s) => s.user);
+  const isSuperAdmin = user?.rol_nombre === 'superadmin';
+
+  const schema = isEditing
+    ? (isSuperAdmin ? usuarioUpdateSchema : adminUsuarioUpdateSchema)
+    : (isSuperAdmin ? usuarioSchema : adminUsuarioSchema);
 
   const { data: roles, isLoading: loadingRoles } = useRoles();
   const { data: negocios, isLoading: loadingNegocios } = useNegocios();
@@ -40,10 +48,10 @@ export function UsuarioForm({ editingUsuario, onClose }: Props) {
         email: editingUsuario.email,
         password_hash: "",
         rol_id: editingUsuario.rol_id,
-        negocio_id: editingUsuario.negocio_id,
+        ...(isSuperAdmin && { negocio_id: editingUsuario.negocio_id }),
       });
     } else {
-      reset({ nombre: "", email: "", password_hash: "", rol_id: 0, negocio_id: 0 });
+      reset({ nombre: "", email: "", password_hash: "", rol_id: 0, ...(isSuperAdmin && { negocio_id: 0 }) });
     }
   }, [editingUsuario, reset]);
 
@@ -107,7 +115,7 @@ export function UsuarioForm({ editingUsuario, onClose }: Props) {
         )}
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">
             Rol
@@ -131,28 +139,30 @@ export function UsuarioForm({ editingUsuario, onClose }: Props) {
           )}
         </div>
 
-        <div className="flex-1">
-          <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-            Negocio
-          </label>
-          <select
-            {...register("negocio_id")}
-            disabled={loadingNegocios}
-            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none transition text-slate-800 appearance-none disabled:opacity-50 font-medium"
-          >
-            <option value="0" disabled>
-              {loadingNegocios ? "Cargando..." : "Seleccionar negocio..."}
-            </option>
-            {negocios?.map((neg) => (
-              <option key={neg.id} value={neg.id}>
-                {neg.nombre}
+        {isSuperAdmin && (
+          <div className="flex-1">
+            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+              Negocio
+            </label>
+            <select
+              {...register("negocio_id")}
+              disabled={loadingNegocios}
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none transition text-slate-800 appearance-none disabled:opacity-50 font-medium"
+            >
+              <option value="0" disabled>
+                {loadingNegocios ? "Cargando..." : "Seleccionar negocio..."}
               </option>
-            ))}
-          </select>
-          {errors.negocio_id && (
-            <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.negocio_id.message}</p>
-          )}
-        </div>
+              {negocios?.map((neg) => (
+                <option key={neg.id} value={neg.id}>
+                  {neg.nombre}
+                </option>
+              ))}
+            </select>
+            {errors.negocio_id && (
+              <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.negocio_id.message}</p>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="flex gap-3 pt-4">

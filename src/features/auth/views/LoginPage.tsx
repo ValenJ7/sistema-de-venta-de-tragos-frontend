@@ -40,7 +40,7 @@ export function LoginPage() {
   };
 
   return (
-    <section className="max-w-md mx-auto mt-20 p-10 bg-white rounded-2xl border shadow-2xl">
+    <section className="max-w-md w-full mx-4 sm:mx-auto mt-8 sm:mt-20 p-6 sm:p-10 bg-white rounded-2xl border shadow-2xl">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-black text-slate-800 italic">COCKTAIL</h1>
         <p className="text-slate-400 font-bold uppercase text-xs tracking-widest mt-2">
