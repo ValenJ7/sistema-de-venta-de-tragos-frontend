@@ -27,7 +27,7 @@ export function UsuarioForm({ editingUsuario, onClose }: Props) {
     : (isSuperAdmin ? usuarioSchema : adminUsuarioSchema);
 
   const { data: roles, isLoading: loadingRoles } = useRoles();
-  const { data: negocios, isLoading: loadingNegocios } = useNegocios();
+  const { data: negocios, isLoading: loadingNegocios } = useNegocios(isSuperAdmin);
 
   const {
     register,

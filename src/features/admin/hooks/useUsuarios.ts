@@ -20,8 +20,8 @@ export function useRoles() {
   return useQuery({ queryKey: ["roles"], queryFn: getRoles });
 }
 
-export function useNegocios() {
-  return useQuery({ queryKey: ["negocios"], queryFn: getNegocios });
+export function useNegocios(enabled = true) {
+  return useQuery({ queryKey: ["negocios"], queryFn: getNegocios, enabled });
 }
 
 export function useCreateUsuario(onSuccess?: () => void) {
