@@ -17,7 +17,7 @@ export async function printTicket(cartItems: { name: string; qty: number }[]) {
         })),
       },
     };
-    await axios.post("/print-ticket", payload);
+    await axios.post("http://localhost:3333/print-ticket", payload);
   } catch (error) {
     console.error("Error al imprimir el ticket en el helper local:", error);
   }
