@@ -59,8 +59,8 @@ export function PosNightSales({ sesionId }: Props) {
                     </span>
                   </div>
 
-                  <div className="space-y-1 mt-3 pt-3 border-t border-slate-200">
-                    {venta.detalles?.map((detalle) => {
+                  {detalles.length > 1 && <div className="space-y-1 mt-3 pt-3 border-t border-slate-200">
+                    {detalles.map((detalle: any) => {
                       const productName =
                         detalle.producto?.nombre ||
                         (detalle as any).Producto?.nombre ||
@@ -77,7 +77,7 @@ export function PosNightSales({ sesionId }: Props) {
                         </div>
                       );
                     })}
-                  </div>
+                  </div>}
                 </div>
               );
               })}
