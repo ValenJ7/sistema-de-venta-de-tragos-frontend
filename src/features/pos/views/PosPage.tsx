@@ -91,7 +91,14 @@ export function PosPage() {
     }
 
     // Imprimir ticket inmediatamente — la impresora es local, no necesita internet
-    printTicket(cart.map((item) => ({ name: item.producto.nombre, qty: item.quantity })));
+    printTicket(
+      cart.map((item) => ({ name: item.producto.nombre, qty: item.quantity })),
+      {
+        negocio: user?.negocio_nombre,
+        caja: sesion.caja?.nombre ?? `Caja #${sesion.caja_id}`,
+        usuario: user?.nombre,
+      }
+    );
 
     checkoutMutation.mutate({
       sesion_id: sesion.id,

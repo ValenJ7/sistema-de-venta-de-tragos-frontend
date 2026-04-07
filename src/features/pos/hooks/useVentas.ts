@@ -7,10 +7,16 @@ import {
 } from "../api/venta.service";
 import type { VentaFormData } from "../types/venta.types";
 
-export async function printTicket(cartItems: { name: string; qty: number }[]) {
+export async function printTicket(
+  cartItems: { name: string; qty: number }[],
+  meta?: { negocio?: string; caja?: string; usuario?: string }
+) {
   try {
     const payload = {
       sale: {
+        negocio: meta?.negocio,
+        caja: meta?.caja,
+        usuario: meta?.usuario,
         items: cartItems.map((item) => ({
           name: item.name,
           qty: item.qty,
