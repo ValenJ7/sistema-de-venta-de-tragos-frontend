@@ -140,14 +140,11 @@ export function ShiftsPage() {
           ) : (
             ventas.map((venta: any) => {
               const detalles = venta.VentaDetalles || venta.detalles || [];
-              const nombres = detalles
-                .map((d: any) => d.Producto?.nombre || d.producto?.nombre || `Producto #${d.producto_id}`)
-                .join(" · ");
               return (
                 <div key={venta.id} className="p-4">
                   <div className="flex justify-between font-black">
                     <span>
-                      {nombres || `Venta #${venta.id}`}
+                      Venta #{venta.id}
                       <span className="ml-2 text-xs text-slate-400 font-bold">
                         {formatTime(venta.fecha)} - {venta.metodo_pago}
                       </span>

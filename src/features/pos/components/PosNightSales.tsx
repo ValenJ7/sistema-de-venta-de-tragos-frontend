@@ -35,7 +35,12 @@ export function PosNightSales({ sesionId }: Props) {
             </p>
           ) : (
             <div className="space-y-4 p-2">
-              {ventas.map((venta) => (
+              {ventas.map((venta) => {
+                const detalles = venta.detalles || (venta as any).VentaDetalles || [];
+                const nombres = detalles
+                  .map((d: any) => d.producto?.nombre || d.Producto?.nombre || `Producto ${d.producto_id}`)
+                  .join(" · ");
+                return (
                 <div
                   key={venta.id}
                   className="bg-slate-50 border border-slate-100 rounded-2xl p-4 shadow-sm hover:shadow transition"
@@ -43,7 +48,7 @@ export function PosNightSales({ sesionId }: Props) {
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <span className="font-extrabold text-slate-800 text-lg">
-                        Venta #{venta.id}
+                        {nombres || `Venta #${venta.id}`}
                       </span>
                       <p className="text-xs font-bold text-slate-400 mt-0.5 uppercase tracking-wider">
                         {formatTime(venta.fecha)} hs - {venta.metodo_pago}
@@ -74,7 +79,8 @@ export function PosNightSales({ sesionId }: Props) {
                     })}
                   </div>
                 </div>
-              ))}
+              );
+              })}
             </div>
           )}
         </div>
