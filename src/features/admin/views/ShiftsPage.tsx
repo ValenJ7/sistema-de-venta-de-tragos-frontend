@@ -40,6 +40,21 @@ export function ShiftsPage() {
   const totalVentas = ventas.reduce((acc: number, v: any) => acc + Number(v.total), 0);
   const isActive = !sesion.cierre_fecha;
 
+  // Agrupar productos vendidos a través de todas las ventas
+  const productosAgrupados: Record<string, { nombre: string; cantidad: number; subtotal: number }> = {};
+  for (const venta of ventas) {
+    const detalles = venta.VentaDetalles || venta.detalles || [];
+    for (const d of detalles) {
+      const nombre = d.Producto?.nombre || d.producto?.nombre || `Producto #${d.producto_id}`;
+      if (!productosAgrupados[nombre]) {
+        productosAgrupados[nombre] = { nombre, cantidad: 0, subtotal: 0 };
+      }
+      productosAgrupados[nombre].cantidad += Number(d.cantidad);
+      productosAgrupados[nombre].subtotal += Number(d.subtotal);
+    }
+  }
+  const productosVendidos = Object.values(productosAgrupados).sort((a, b) => b.cantidad - a.cantidad);
+
   return (
     <section className="space-y-6 pt-10 max-w-3xl mx-auto">
       <header className="text-center">
@@ -86,6 +101,27 @@ export function ShiftsPage() {
           </div>
         </div>
       </header>
+
+      {productosVendidos.length > 0 && (
+        <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+          <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
+            <h2 className="font-black text-sm text-slate-700 uppercase tracking-wide">Productos vendidos</h2>
+          </div>
+          <div className="divide-y divide-slate-100">
+            {productosVendidos.map((p) => (
+              <div key={p.nombre} className="flex items-center justify-between px-4 py-2.5">
+                <div className="flex items-center gap-3">
+                  <span className="bg-orange-100 text-orange-700 font-black text-sm rounded-lg px-2.5 py-0.5 min-w-10 text-center">
+                    x{p.cantidad}
+                  </span>
+                  <span className="font-bold text-slate-800">{p.nombre}</span>
+                </div>
+                <span className="text-sm font-bold text-slate-500">{formatPrice(p.subtotal)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="rounded-2xl border border-orange-200 bg-white shadow-sm overflow-hidden">
         <div className="divide-y divide-orange-100">
