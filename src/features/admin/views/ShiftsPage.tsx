@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getDetalleSesion } from "../api/dashboard.service";
+import { getVentasBySesion } from "../../pos/api/venta.service";
 import { formatPrice, formatTime } from "../../../shared/utils/format";
 
 export function ShiftsPage() {
@@ -10,6 +11,13 @@ export function ShiftsPage() {
   const { data: sesion, isLoading, isError } = useQuery({
     queryKey: ["detalle-sesion", sesionId],
     queryFn: () => getDetalleSesion(sesionId),
+    enabled: !!sesionId,
+    refetchInterval: 5000,
+  });
+
+  const { data: ventasSesion } = useQuery({
+    queryKey: ["ventas-sesion", sesionId],
+    queryFn: () => getVentasBySesion(sesionId),
     enabled: !!sesionId,
     refetchInterval: 5000,
   });
@@ -36,7 +44,7 @@ export function ShiftsPage() {
     );
   }
 
-  const ventas = sesion.Ventas || [];
+  const ventas = ventasSesion || sesion.Ventas || [];
   const totalVentas = ventas.reduce((acc: number, v: any) => acc + Number(v.total), 0);
   const isActive = !sesion.cierre_fecha;
 
