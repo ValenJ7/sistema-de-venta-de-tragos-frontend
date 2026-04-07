@@ -138,31 +138,37 @@ export function ShiftsPage() {
               Sin ventas registradas en este turno
             </div>
           ) : (
-            ventas.map((venta: any) => (
-              <div key={venta.id} className="p-4">
-                <div className="flex justify-between font-black">
-                  <span>
-                    Venta #{venta.id}
-                    <span className="ml-2 text-xs text-slate-400 font-bold">
-                      {formatTime(venta.fecha)} - {venta.metodo_pago}
+            ventas.map((venta: any) => {
+              const detalles = venta.VentaDetalles || venta.detalles || [];
+              const nombres = detalles
+                .map((d: any) => d.Producto?.nombre || d.producto?.nombre || `Producto #${d.producto_id}`)
+                .join(" · ");
+              return (
+                <div key={venta.id} className="p-4">
+                  <div className="flex justify-between font-black">
+                    <span>
+                      {nombres || `Venta #${venta.id}`}
+                      <span className="ml-2 text-xs text-slate-400 font-bold">
+                        {formatTime(venta.fecha)} - {venta.metodo_pago}
+                      </span>
                     </span>
-                  </span>
-                  <span className="text-orange-600">{formatPrice(Number(venta.total))}</span>
-                </div>
-                {venta.VentaDetalles && (
-                  <div className="mt-2 text-sm text-gray-500 space-y-0.5">
-                    {venta.VentaDetalles.map((d: any) => (
-                      <div key={d.id} className="flex justify-between">
-                        <span>
-                          x{d.cantidad} {d.Producto?.nombre || `Producto #${d.producto_id}`}
-                        </span>
-                        <span className="font-bold">{formatPrice(Number(d.subtotal))}</span>
-                      </div>
-                    ))}
+                    <span className="text-orange-600">{formatPrice(Number(venta.total))}</span>
                   </div>
-                )}
-              </div>
-            ))
+                  {detalles.length > 0 && (
+                    <div className="mt-2 text-sm text-gray-500 space-y-0.5">
+                      {detalles.map((d: any) => (
+                        <div key={d.id} className="flex justify-between">
+                          <span>
+                            x{d.cantidad} {d.Producto?.nombre || d.producto?.nombre || `Producto #${d.producto_id}`}
+                          </span>
+                          <span className="font-bold">{formatPrice(Number(d.subtotal))}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })
           )}
         </div>
       </div>
