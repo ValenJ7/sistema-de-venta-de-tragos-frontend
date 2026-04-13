@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getVentasBySesion } from "../api/venta.service";
 import { formatPrice, formatTime } from "../../../shared/utils/format";
-
 type Props = {
   sesionId: number;
 };
@@ -13,16 +12,10 @@ export function PosNightSales({ sesionId }: Props) {
     refetchInterval: 5000,
   });
 
-  const totalTurno = ventas?.reduce((acc, v) => acc + Number(v.total), 0) || 0;
-
   return (
     <div className="flex flex-col h-full max-h-[800px]">
       <div className="flex items-center justify-between mb-6 px-1">
         <h2 className="text-3xl font-black text-slate-800">Historial de Turno</h2>
-        <div className="text-right">
-          <p className="text-xs text-slate-400 font-bold uppercase">Total turno</p>
-          <p className="text-2xl font-black text-orange-500">{formatPrice(totalTurno)}</p>
-        </div>
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white shadow-sm flex flex-col flex-1 overflow-hidden min-h-[400px]">
@@ -86,10 +79,7 @@ export function PosNightSales({ sesionId }: Props) {
         </div>
 
         <div className="p-5 border-t border-slate-100 bg-slate-50/50">
-          <div className="flex items-center justify-between">
-            <span className="text-slate-500 font-bold">{ventas?.length || 0} ventas</span>
-            <span className="text-xl font-black text-slate-800">{formatPrice(totalTurno)}</span>
-          </div>
+          <span className="text-slate-500 font-bold">{ventas?.length || 0} ventas</span>
         </div>
       </div>
     </div>
