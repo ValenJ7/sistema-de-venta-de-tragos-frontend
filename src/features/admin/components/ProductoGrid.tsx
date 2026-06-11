@@ -56,51 +56,52 @@ export function ProductoGrid({ onEdit }: Props) {
       {productos.map((prod) => (
         <div
           key={prod.id}
-          className="flex items-center gap-4 py-4 px-3 hover:bg-slate-50 transition rounded-xl group"
+          className="flex items-center gap-3 sm:gap-4 py-3 sm:py-4 px-2 sm:px-3 hover:bg-slate-50 transition rounded-xl group"
         >
           {/* Avatar placeholder for aesthetic */}
-          <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center shrink-0 text-orange-600 font-black text-lg shadow-sm">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-100 flex items-center justify-center shrink-0 text-orange-600 font-black text-base sm:text-lg shadow-sm">
             {prod.nombre.charAt(0).toUpperCase()}
           </div>
 
-          {/* Info */}
+          {/* Info: nombre + acciones arriba, categoría + precio abajo */}
           <div className="flex-1 min-w-0">
-            <p className="font-bold text-slate-800 truncate text-lg">{prod.nombre}</p>
-            <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-xs font-semibold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-md">
-                {prod.categoria?.nombre || "Sin Categoría"}
-              </span>
-              <span className="text-xs text-slate-400">ID #{prod.id}</span>
+            <div className="flex items-center gap-2">
+              <p className="flex-1 min-w-0 font-bold text-slate-800 truncate text-base sm:text-lg">{prod.nombre}</p>
+
+              {/* Actions */}
+              <div className="flex items-center gap-1 shrink-0 sm:opacity-0 sm:group-hover:opacity-100 transition">
+                <button
+                  onClick={() => { onEdit(prod); setConfirmId(null); }}
+                  className="p-2 rounded-lg text-blue-500 hover:bg-blue-50 transition"
+                  title="Editar"
+                >
+                  <PencilSquareIcon className="w-5 h-5" />
+                </button>
+
+                <button
+                  onClick={() => handleDelete(prod.id)}
+                  disabled={deleteMutation.isPending}
+                  className={`p-2 rounded-lg transition font-semibold text-xs ${
+                    confirmId === prod.id
+                      ? "bg-red-500 text-white px-3 shadow-md"
+                      : "text-red-400 hover:bg-red-50"
+                  }`}
+                  title="Eliminar"
+                >
+                  {confirmId === prod.id ? "¡Borrar!" : <TrashIcon className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Price */}
-          <div className="text-right px-4">
-            <p className="font-black text-orange-600 text-lg">{formatPrice(prod.precio)}</p>
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
-            <button
-              onClick={() => { onEdit(prod); setConfirmId(null); }}
-              className="p-2 rounded-lg text-blue-500 hover:bg-blue-50 transition"
-              title="Editar"
-            >
-              <PencilSquareIcon className="w-5 h-5" />
-            </button>
-
-            <button
-              onClick={() => handleDelete(prod.id)}
-              disabled={deleteMutation.isPending}
-              className={`p-2 rounded-lg transition font-semibold text-xs ${
-                confirmId === prod.id
-                  ? "bg-red-500 text-white px-3 shadow-md"
-                  : "text-red-400 hover:bg-red-50"
-              }`}
-              title="Eliminar"
-            >
-              {confirmId === prod.id ? "¡Borrar!" : <TrashIcon className="w-5 h-5" />}
-            </button>
+            <div className="flex items-center justify-between gap-2 mt-0.5">
+              <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 min-w-0">
+                <span className="text-xs font-semibold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-md">
+                  {prod.categoria?.nombre || "Sin Categoría"}
+                </span>
+                <span className="text-xs text-slate-400">ID #{prod.id}</span>
+              </div>
+              <p className="font-black text-orange-600 text-base sm:text-lg whitespace-nowrap shrink-0">{formatPrice(prod.precio)}</p>
+            </div>
           </div>
         </div>
       ))}

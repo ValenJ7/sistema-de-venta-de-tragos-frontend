@@ -37,7 +37,7 @@ export function CategoriaModal({ isOpen, onClose, editingCategoria }: Props) {
             leaveFrom="opacity-100 scale-100 translate-y-0"
             leaveTo="opacity-0 scale-95 translate-y-4"
           >
-            <DialogPanel className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6">
+            <DialogPanel className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl p-5 sm:p-6">
               <div className="flex items-center justify-between mb-5">
                 <DialogTitle className="text-xl font-black text-slate-800">
                   {editingCategoria ? "Editar Categoría" : "Nueva Categoría"}

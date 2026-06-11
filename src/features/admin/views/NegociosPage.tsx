@@ -197,9 +197,9 @@ export function NegociosPage() {
                     <BuildingOfficeIcon className="w-6 h-6" />
                   </div>
                   <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-bold text-slate-800 text-lg">{neg.nombre}</h3>
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                    <div className="flex items-center gap-2 min-w-0">
+                      <h3 className="font-bold text-slate-800 text-base sm:text-lg line-clamp-2 sm:truncate min-w-0">{neg.nombre}</h3>
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap ${
                         neg.activo
                           ? "bg-green-100 text-green-700"
                           : "bg-red-100 text-red-600"
@@ -220,7 +220,7 @@ export function NegociosPage() {
                   </div>
                 </button>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0 pl-2">
                   <button
                     onClick={() => handleToggleActivo(neg.id, neg.nombre, neg.activo)}
                     disabled={suspenderMut.isPending || activarMut.isPending}

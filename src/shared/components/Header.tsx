@@ -46,7 +46,7 @@ export function Header() {
       {user && !isAdmin && !isSuperAdmin && (
         <>
           <NavLink to="/pos" className={onClick ? mobileLinkClass : linkClass} onClick={onClick}>Punto de Venta</NavLink>
-          <span className="text-white font-bold text-sm px-3">{user.nombre}</span>
+          <span className="text-white font-bold text-sm px-3 truncate max-w-[200px]">{user.nombre}</span>
         </>
       )}
       {user && (
@@ -67,9 +67,9 @@ export function Header() {
     <header className="bg-slate-800 shadow-md">
       <div className="mx-auto container px-4 sm:px-5 py-4">
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <img src="/logo.svg" alt="logo" className="w-10" />
-            <span className="text-white font-black text-base sm:text-xl tracking-tighter">
+          <div className="flex items-center gap-3 min-w-0">
+            <img src="/logo.svg" alt="logo" className="w-10 shrink-0" />
+            <span className="text-white font-black text-base sm:text-xl tracking-tighter truncate">
               {isSuperAdmin ? "COCKTAIL SUPER" : isAdmin ? "COCKTAIL ADMIN" : "COCKTAIL POS"}
             </span>
           </div>
@@ -82,7 +82,7 @@ export function Header() {
           {/* Mobile hamburger */}
           {user && (
             <button
-              className="md:hidden text-white p-2 rounded-lg hover:bg-slate-700 transition"
+              className="md:hidden shrink-0 ml-2 text-white p-2 rounded-lg hover:bg-slate-700 transition"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >

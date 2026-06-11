@@ -69,7 +69,7 @@ export function CategoriaGrid({ onEdit }: Props) {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
+          <div className="flex items-center gap-1 shrink-0 sm:opacity-0 sm:group-hover:opacity-100 transition">
             <button
               onClick={() => { onEdit(cat); setConfirmId(null); }}
               className="p-2 rounded-lg text-blue-500 hover:bg-blue-50 transition"

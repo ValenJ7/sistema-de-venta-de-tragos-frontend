@@ -92,7 +92,7 @@ export function ShiftsPage() {
           {sesion.cierre_fecha && ` — Cierre: ${formatTime(sesion.cierre_fecha)}`}
         </p>
 
-        <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3 w-full max-w-sm mx-auto">
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 w-full max-w-xs sm:max-w-2xl mx-auto">
           <div className="bg-orange-50 border border-orange-200 rounded-xl p-2 sm:p-3">
             <div className="text-lg sm:text-2xl font-black text-orange-600 truncate">{formatPrice(totalVentas)}</div>
             <div className="text-xs text-slate-500 font-bold mt-1">Total vendido</div>

@@ -50,40 +50,65 @@ export function NegocioDetailModal({ negocio, onClose }: Props) {
           {!negocio.usuarios || negocio.usuarios.length === 0 ? (
             <p className="text-sm text-slate-400">Sin usuarios registrados</p>
           ) : (
-            <div className="rounded-xl border border-slate-200 overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-slate-50 text-slate-500 font-semibold text-xs uppercase tracking-wide">
-                  <tr>
-                    <th className="px-4 py-3 text-left">Nombre</th>
-                    <th className="px-4 py-3 text-left">Email</th>
-                    <th className="px-4 py-3 text-left">Rol</th>
-                    <th className="px-4 py-3 text-left">Estado</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {negocio.usuarios.map((u) => (
-                    <tr key={u.id} className="hover:bg-slate-50 transition">
-                      <td className="px-4 py-3 font-medium text-slate-800">{u.nombre}</td>
-                      <td className="px-4 py-3 text-slate-500">{u.email}</td>
-                      <td className="px-4 py-3">
-                        {u.Rol ? (
-                          <span className={`text-xs font-bold px-2 py-1 rounded-full ${ROL_BADGE[u.Rol.nombre] ?? "bg-slate-100 text-slate-600"}`}>
-                            {u.Rol.nombre}
-                          </span>
-                        ) : (
-                          <span className="text-slate-300">—</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`text-xs font-bold px-2 py-1 rounded-full ${u.activo ? "bg-green-100 text-green-700" : "bg-red-100 text-red-500"}`}>
-                          {u.activo ? "Activo" : "Inactivo"}
+            <>
+              {/* Mobile: tarjetas apiladas (la tabla no entra en pantallas chicas) */}
+              <div className="space-y-2 sm:hidden">
+                {negocio.usuarios.map((u) => (
+                  <div key={u.id} className="rounded-xl border border-slate-200 p-3">
+                    <p className="font-semibold text-slate-800 break-words">{u.nombre}</p>
+                    <p className="text-xs text-slate-500 break-all mt-0.5">{u.email}</p>
+                    <div className="flex flex-wrap items-center gap-2 mt-2">
+                      {u.Rol ? (
+                        <span className={`text-xs font-bold px-2 py-1 rounded-full ${ROL_BADGE[u.Rol.nombre] ?? "bg-slate-100 text-slate-600"}`}>
+                          {u.Rol.nombre}
                         </span>
-                      </td>
+                      ) : (
+                        <span className="text-slate-300">—</span>
+                      )}
+                      <span className={`text-xs font-bold px-2 py-1 rounded-full ${u.activo ? "bg-green-100 text-green-700" : "bg-red-100 text-red-500"}`}>
+                        {u.activo ? "Activo" : "Inactivo"}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Tablet/desktop: tabla con scroll horizontal de seguridad */}
+              <div className="hidden sm:block rounded-xl border border-slate-200 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-slate-50 text-slate-500 font-semibold text-xs uppercase tracking-wide">
+                    <tr>
+                      <th className="px-4 py-3 text-left">Nombre</th>
+                      <th className="px-4 py-3 text-left">Email</th>
+                      <th className="px-4 py-3 text-left">Rol</th>
+                      <th className="px-4 py-3 text-left">Estado</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {negocio.usuarios.map((u) => (
+                      <tr key={u.id} className="hover:bg-slate-50 transition">
+                        <td className="px-4 py-3 font-medium text-slate-800">{u.nombre}</td>
+                        <td className="px-4 py-3 text-slate-500">{u.email}</td>
+                        <td className="px-4 py-3">
+                          {u.Rol ? (
+                            <span className={`text-xs font-bold px-2 py-1 rounded-full ${ROL_BADGE[u.Rol.nombre] ?? "bg-slate-100 text-slate-600"}`}>
+                              {u.Rol.nombre}
+                            </span>
+                          ) : (
+                            <span className="text-slate-300">—</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className={`text-xs font-bold px-2 py-1 rounded-full ${u.activo ? "bg-green-100 text-green-700" : "bg-red-100 text-red-500"}`}>
+                            {u.activo ? "Activo" : "Inactivo"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
       </div>

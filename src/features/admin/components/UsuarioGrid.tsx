@@ -55,12 +55,12 @@ export function UsuarioGrid({ onEdit }: Props) {
       {usuarios.map((user) => (
         <div
           key={user.id}
-          className={`flex items-center gap-4 py-4 px-3 hover:bg-slate-50 transition rounded-xl group ${
+          className={`flex items-center gap-3 sm:gap-4 py-3 sm:py-4 px-2 sm:px-3 hover:bg-slate-50 transition rounded-xl group ${
             !user.activo ? "opacity-50" : ""
           }`}
         >
           <div
-            className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-black text-lg shadow-sm ${
+            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 font-black text-base sm:text-lg shadow-sm ${
               user.rol?.nombre === "admin"
                 ? "bg-purple-100 text-purple-600"
                 : "bg-blue-100 text-blue-600"
@@ -70,9 +70,37 @@ export function UsuarioGrid({ onEdit }: Props) {
           </div>
 
           <div className="flex-1 min-w-0">
-            <p className="font-bold text-slate-800 truncate text-lg">{user.nombre}</p>
-            <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-xs text-slate-400">{user.email}</span>
+            <div className="flex items-center gap-2">
+              <p className="flex-1 min-w-0 font-bold text-slate-800 truncate text-base sm:text-lg">{user.nombre}</p>
+
+              <div className="flex items-center gap-1 shrink-0 sm:opacity-0 sm:group-hover:opacity-100 transition">
+                <button
+                  onClick={() => { onEdit(user); setConfirmId(null); }}
+                  className="p-2 rounded-lg text-blue-500 hover:bg-blue-50 transition"
+                  title="Editar"
+                >
+                  <PencilSquareIcon className="w-5 h-5" />
+                </button>
+
+                {user.activo && (
+                  <button
+                    onClick={() => handleDeactivate(user.id)}
+                    disabled={deactivateMutation.isPending}
+                    className={`p-2 rounded-lg transition font-semibold text-xs ${
+                      confirmId === user.id
+                        ? "bg-red-500 text-white px-3 shadow-md"
+                        : "text-red-400 hover:bg-red-50"
+                    }`}
+                    title="Desactivar"
+                  >
+                    {confirmId === user.id ? "Desactivar" : <NoSymbolIcon className="w-5 h-5" />}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mt-0.5">
+              <span className="text-xs text-slate-400 truncate max-w-full">{user.email}</span>
               <span
                 className={`text-xs font-semibold px-2 py-0.5 rounded-md ${
                   user.rol?.nombre === "admin"
@@ -88,31 +116,6 @@ export function UsuarioGrid({ onEdit }: Props) {
                 </span>
               )}
             </div>
-          </div>
-
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
-            <button
-              onClick={() => { onEdit(user); setConfirmId(null); }}
-              className="p-2 rounded-lg text-blue-500 hover:bg-blue-50 transition"
-              title="Editar"
-            >
-              <PencilSquareIcon className="w-5 h-5" />
-            </button>
-
-            {user.activo && (
-              <button
-                onClick={() => handleDeactivate(user.id)}
-                disabled={deactivateMutation.isPending}
-                className={`p-2 rounded-lg transition font-semibold text-xs ${
-                  confirmId === user.id
-                    ? "bg-red-500 text-white px-3 shadow-md"
-                    : "text-red-400 hover:bg-red-50"
-                }`}
-                title="Desactivar"
-              >
-                {confirmId === user.id ? "Desactivar" : <NoSymbolIcon className="w-5 h-5" />}
-              </button>
-            )}
           </div>
         </div>
       ))}

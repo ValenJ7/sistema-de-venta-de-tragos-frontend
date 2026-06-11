@@ -15,7 +15,7 @@ export function PosNightSales({ sesionId }: Props) {
   return (
     <div className="flex flex-col h-full max-h-[800px]">
       <div className="flex items-center justify-between mb-6 px-1">
-        <h2 className="text-3xl font-black text-slate-800">Historial de Turno</h2>
+        <h2 className="text-2xl sm:text-3xl font-black text-slate-800">Historial de Turno</h2>
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white shadow-sm flex flex-col flex-1 overflow-hidden min-h-[400px]">
@@ -38,16 +38,16 @@ export function PosNightSales({ sesionId }: Props) {
                   key={venta.id}
                   className="bg-slate-50 border border-slate-100 rounded-2xl p-4 shadow-sm hover:shadow transition"
                 >
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <span className="font-extrabold text-slate-800 text-lg">
+                  <div className="flex justify-between items-start gap-2 mb-3">
+                    <div className="min-w-0 flex-1">
+                      <span className="font-extrabold text-slate-800 text-base sm:text-lg line-clamp-2">
                         {nombres || `Venta #${venta.id}`}
                       </span>
                       <p className="text-xs font-bold text-slate-400 mt-0.5 uppercase tracking-wider">
                         {formatTime(venta.fecha)} hs - {venta.metodo_pago}
                       </p>
                     </div>
-                    <span className="text-xl font-black text-orange-500">
+                    <span className="shrink-0 text-lg sm:text-xl font-black text-orange-500 whitespace-nowrap">
                       {formatPrice(Number(venta.total))}
                     </span>
                   </div>
@@ -59,12 +59,12 @@ export function PosNightSales({ sesionId }: Props) {
                         (detalle as any).Producto?.nombre ||
                         `Producto ${detalle.producto_id}`;
                       return (
-                        <div key={detalle.id} className="flex justify-between items-center text-sm">
-                          <p className="font-semibold text-slate-600 truncate max-w-[180px]">
+                        <div key={detalle.id} className="flex justify-between items-center gap-2 text-sm">
+                          <p className="font-semibold text-slate-600 truncate min-w-0 flex-1">
                             <span className="text-slate-400 font-bold mr-1">x{detalle.cantidad}</span>
                             {productName}
                           </p>
-                          <p className="font-bold text-slate-500 ml-2">
+                          <p className="font-bold text-slate-500 ml-2 shrink-0 whitespace-nowrap">
                             {formatPrice(Number(detalle.subtotal))}
                           </p>
                         </div>
